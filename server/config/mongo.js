@@ -1,10 +1,11 @@
 import Mongoose from "mongoose"
-import dotenv from "dotenv"
+import config from "./config.js"
 
-const user = dotenv.config().parsed.DB_USER
-const pass = dotenv.config().parsed.DB_PASS
+const user = config.DB_USER
+const pass = config.DB_PASS
+const database = config.DB_NAME
 
-const myDb = `mongodb+srv://${user}:${pass}@cluster0.h7mxi13.mongodb.net/?retryWrites=true&w=majority`
+const myDb = `mongodb+srv://${user}:${pass}@${database}/?retryWrites=true&w=majority`
 const connectDB = async () => {
   await Mongoose.connect(myDb, {
     useNewUrlParser: true,
