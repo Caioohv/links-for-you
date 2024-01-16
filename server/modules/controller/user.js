@@ -8,17 +8,13 @@ class UserController {
   async login(req, res){
     try{
       const { email, password } = req.body;
-    
-      if (!email || !password) {
-        throw 'incorrect login fields';
-      }
 
       let result = await userBS.tryLogin(email, password)
 
       res.status(200).json({message: 'ok'});
     }catch(exception){
       if(typeof exception == 'string')
-        error(res, exception);
+        return error(res, exception);
 
       error(res, 'generic');
     }

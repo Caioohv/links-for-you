@@ -3,7 +3,12 @@ class UserBs {
   }
 
   async tryLogin(email, password) {
-    return true;
+
+    if (!email || !password) {
+      throw 'incorrect login fields';
+    }
+
+    return email == password;
   }
 }
 
