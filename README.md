@@ -5,3 +5,4 @@ This project uses:
  - Express, for the server
  - Awilix, for Dependency Injection
  - MongoDB and Mongoose for storage
+ - Eslint for keep a standard code style

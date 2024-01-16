@@ -2,18 +2,22 @@ import error from '../../config/error.js';
 import userBS from '../business/user.js';
 
 class UserController {
+
+  constructor(){}
   
   async login(req, res){
     try{
       const { email, password } = req.body;
     
       if (!email || !password) {
-        throw 'incorrect-login-fields';
+        throw 'incorrect login fields';
       }
 
-      userBS.tryLogin(email, password)
+      let result = await userBS.tryLogin(email, password)
+
+      res.status(200).json({message: 'ok'});
     }catch(exception){
-      if(exception instanceof String)
+      if(typeof exception == 'string')
         error(res, exception);
 
       error(res, 'generic');
@@ -22,7 +26,6 @@ class UserController {
 
   }
 
-
-
-
 }
+
+export default new UserController();

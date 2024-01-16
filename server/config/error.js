@@ -1,20 +1,25 @@
-export default (res, error, context) => {
-  try{
-    
-    if(!error) throw 'generic';
-    error = error.replaceAll(' ', '-');
+import fs from 'fs'
 
-    const errorResponse = require(`./errors/${errorCode}.json`);
+const loadJSON = (path) => JSON.parse(fs.readFileSync(new URL(path, import.meta.url)))
+
+export default (res, errorCode, context = null) => {
+  try{
+    if(!errorCode) throw 'generic';
+      
+    errorCode = errorCode.replaceAll(' ', '-')
+
+    const errorResponse = loadJSON(`./errors/${errorCode}.json`)
 
     if(context){
-      errorResponse.context = context;
+      errorResponse.context = context
     }
 
-    res.status(errorResponse?.status || 500).json(errorResponse);
-
+    const {status, ...response} = errorResponse;
+    
+    res.status(status || 500).json(response)
 
   }catch(exception){
-    const error = require(`./errors/default.json`);
-    return error;
+    const errorResponse = loadJSON(`./errors/generic.json`)
+    res.status(errorResponse?.status || 500).json(errorResponse)
   }
 }
